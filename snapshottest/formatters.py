@@ -18,7 +18,9 @@ class BaseFormatter(object):
     def assert_value_matches_snapshot(
         self, test, test_value, snapshot_value, formatter
     ):
-        test.assert_equals(formatter.normalize(test_value), snapshot_value)
+        expected_value = json.loads(json.dumps(formatter.normalize(test_value)))
+        snapshot_value = json.loads(json.dumps(snapshot_value))
+        test.assert_equals(expected_value, snapshot_value)
 
     def store(self, test, value):
         return value
